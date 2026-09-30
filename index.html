@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>냉털셰프 | 냉장고 재료로 만드는 오늘의 레시피</title>
+  <meta name="description" content="냉장고에 남은 재료만 입력하면 AI가 지금 만들 수 있는 메뉴와 조리 순서를 알려드려요." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧊</text></svg>" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <!-- ===== 상단 메뉴 (고정) ===== -->
+  <header class="header">
+    <div class="container header-inner">
+      <a href="#home" class="logo">🧊 냉털셰프</a>
+
+      <!-- 모바일에서만 보이는 햄버거 버튼 -->
+      <button class="menu-toggle" id="menuToggle" aria-label="메뉴 열기" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+
+      <nav class="nav" id="nav">
+        <a href="#home">홈</a>
+        <a href="#how">이용 방법</a>
+        <a href="#recipe">레시피 만들기</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- ===== 섹션 1: 홈 ===== -->
+    <section id="home" class="hero">
+      <div class="container hero-inner">
+        <div class="hero-text">
+          <p class="hero-badge">자취생 · 1인 가구를 위한 AI 요리 도우미</p>
+          <h1>냉장고 속 남은 재료로<br />오늘 뭐 해 먹지?</h1>
+          <p class="hero-desc">
+            가진 재료만 적어 주세요. AI가 <strong>지금 바로 만들 수 있는 메뉴 2가지</strong>와
+            간단한 조리 순서를 알려드려요.
+          </p>
+          <a href="#recipe" class="btn btn-primary">재료 넣어보기 →</a>
+        </div>
+        <div class="hero-visual" aria-hidden="true">
+          <div class="fridge">
+            <span>🥚</span><span>🥬</span><span>🧅</span>
+            <span>🥕</span><span>🍚</span><span>🧀</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 섹션 2: 이용 방법 ===== -->
+    <section id="how" class="section">
+      <div class="container">
+        <h2 class="section-title">이용 방법</h2>
+        <p class="section-desc">3단계면 오늘의 메뉴가 정해져요.</p>
+        <div class="steps">
+          <article class="step-card">
+            <span class="step-num">1</span>
+            <h3>재료 입력</h3>
+            <p>냉장고에 있는 재료를 쉼표로 구분해 적어요.<br />예) 계란, 김치, 밥</p>
+          </article>
+          <article class="step-card">
+            <span class="step-num">2</span>
+            <h3>조리 시간 선택</h3>
+            <p>10분, 20분, 30분 이상 중 여유 있는 시간을 골라요.</p>
+          </article>
+          <article class="step-card">
+            <span class="step-num">3</span>
+            <h3>레시피 확인</h3>
+            <p>추천 메뉴 2개와 조리 순서를 바로 확인해요.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 섹션 3: AI 레시피 만들기 ===== -->
+    <section id="recipe" class="section section-alt">
+      <div class="container">
+        <h2 class="section-title">레시피 만들기</h2>
+        <p class="section-desc">소금, 간장, 설탕, 식용유 같은 기본 양념은 있다고 가정해요.</p>
+
+        <form class="recipe-form" id="recipeForm" novalidate>
+          <label for="ingredients" class="form-label">가진 재료</label>
+          <textarea
+            id="ingredients"
+            rows="3"
+            maxlength="200"
+            placeholder="예) 계란, 김치, 밥, 대파"
+          ></textarea>
+          <div class="form-meta">
+            <span id="charCount">0 / 200</span>
+          </div>
+
+          <p class="form-label">조리 시간</p>
+          <div class="time-options" id="timeOptions">
+            <button type="button" class="time-btn" data-time="10분 이내">10분 이내</button>
+            <button type="button" class="time-btn active" data-time="20분">20분</button>
+            <button type="button" class="time-btn" data-time="30분 이상">30분 이상</button>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-block" id="submitBtn">
+            레시피 추천받기
+          </button>
+        </form>
+
+        <!-- 결과 / 로딩 / 에러가 표시되는 영역 -->
+        <div class="result" id="result" hidden aria-live="polite"></div>
+      </div>
+    </section>
+
+    <!-- ===== 섹션 4: FAQ ===== -->
+    <section id="faq" class="section">
+      <div class="container">
+        <h2 class="section-title">자주 묻는 질문</h2>
+        <div class="faq-list">
+          <details>
+            <summary>양념도 입력해야 하나요?</summary>
+            <p>소금, 간장, 설탕, 식용유 같은 기본 양념은 있다고 가정해요. 고추장, 굴소스처럼 특별한 양념만 적어 주세요.</p>
+          </details>
+          <details>
+            <summary>재료가 한두 개뿐이어도 되나요?</summary>
+            <p>네. 재료가 적으면 간단한 메뉴를 추천하고, "있으면 좋은 재료"도 함께 알려드려요.</p>
+          </details>
+          <details>
+            <summary>식재료가 아닌 걸 입력하면 어떻게 되나요?</summary>
+            <p>식재료를 찾지 못했다는 안내가 표시돼요. 먹을 수 있는 재료를 입력해 주세요.</p>
+          </details>
+          <details>
+            <summary>결과가 마음에 안 들면요?</summary>
+            <p>같은 재료로 다시 버튼을 누르면 다른 메뉴가 나올 수 있어요. 조리 시간을 바꿔 보는 것도 방법이에요.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p>© 2026 냉털셰프 · AI가 만든 레시피는 참고용이에요. 알레르기 재료는 꼭 확인하세요.</p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
