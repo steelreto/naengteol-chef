@@ -1,0 +1,15 @@
+# 환경 변수 (API 키) - 절대 올리지 않기
+.env
+.env.local
+.env*.local
+
+# Vercel 로컬 설정
+.vercel
+
+# Python
+__pycache__/
+*.pyc
+
+# OS
+.DS_Store
+Thumbs.db
